@@ -63,12 +63,12 @@ def search(testFeature):
     feature_list = pickle.load(open('/Users/prakhargupta/reverseImageSearch/Reverse_Image_Search.ipynbfeatures-caltech101-resnet.pickle', 'rb'))
     neighbors = NearestNeighbors(n_neighbors=5, algorithm='brute',metric='euclidean').fit(feature_list)
     distances, indices = neighbors.kneighbors([testFeature])
+    print(len(feature_list[0]))
 
+    # plt.imshow(mpimg.imread(testFeature))
+    plt.imshow(mpimg.imread(filenames[indices[0][2]]))
+    plt.show()
 
-    plt.imshow(mpimg.imread(testFeature))
-    plt.show()
-    plt.imshow(mpimg.imread(testFeature)
-    plt.show()
 
 
 root_dir = '/Users/prakhargupta/Downloads/caltech101'
@@ -76,6 +76,6 @@ filenames = sorted(get_file_list(root_dir))
 # plt.imshow(mpimg.imread(filenames[1340]))
 # train(filenames)
 
-testFeature = extract_features("/Users/prakhargupta/Pictures/testphoto.jpg",model)
+testFeature = extract_features("/Users/prakhargupta/Downloads/testplaneimage.jpeg",model)
 # print(len(testFeature))
 search(testFeature)
