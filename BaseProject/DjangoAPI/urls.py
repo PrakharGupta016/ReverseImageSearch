@@ -1,10 +1,9 @@
 from django.contrib import admin
 from django.urls import path,include
+from .viewClass import ImageView
 
 
-
-from .views import image_request
 
 urlpatterns = [
-    path('', image_request, name = "image-request")
+    path('upload',ImageView.as_view())
 ]
