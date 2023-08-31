@@ -4,10 +4,8 @@ from .models import ImageUpload
 from django import forms
 
 class UserImage(forms.ModelForm):
-    class meta:
-        # To specify the model to be used to create form
-        models = ImageUpload
-        # It includes all the fields of model
+    class Meta:
+        model = ImageUpload
         fields = '__all__'
 
     def __str__(self):
