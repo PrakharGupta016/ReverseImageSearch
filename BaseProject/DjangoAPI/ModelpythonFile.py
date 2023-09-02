@@ -14,13 +14,10 @@ from tensorflow.keras.applications.resnet50 import ResNet50, preprocess_input
 
 from sklearn.neighbors import NearestNeighbors
 
-
-
-
+model = ResNet50(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
 
 
 def extract_features(img_path):
-    model = ResNet50(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
     input_shape = (224, 224, 3)
     img = image.load_img(img_path, target_size=(input_shape[0], input_shape[1]))
     img_array = image.img_to_array(img)
@@ -48,7 +45,6 @@ def get_file_list(root_dir):
 
 
 def train(filenames):
-    model = ResNet50(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
     feature_list = []
     for i in tqdm(range(len(filenames))):
         feature_list.append(extract_features(filenames[i], model))
@@ -60,17 +56,17 @@ def train(filenames):
 
 
 def search(testFeature):
-    model = ResNet50(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
     filenames = pickle.load(open('/Users/prakhargupta/reverseImageSearch/Reverse_Image_Search.ipynbfilenames-caltech101.pickle', 'rb'))
     feature_list = pickle.load(open('/Users/prakhargupta/reverseImageSearch/Reverse_Image_Search.ipynbfeatures-caltech101-resnet.pickle', 'rb'))
     neighbors = NearestNeighbors(n_neighbors=5, algorithm='brute',metric='euclidean').fit(feature_list)
     distances, indices = neighbors.kneighbors([testFeature])
-    print(len(feature_list[0]))
-
+    # print(len(feature_list[0]))
     # plt.imshow(mpimg.imread(testFeature))
-    plt.imshow(mpimg.imread(filenames[indices[0][2]]))
-    plt.show()
+    plt.imshow(mpimg.imread(filenames[indices[0][0]]))
+    # return indices
 
+    plt.show()
+    return indices
 
 
 # root_dir = '/Users/prakhargupta/Downloads/caltech101'

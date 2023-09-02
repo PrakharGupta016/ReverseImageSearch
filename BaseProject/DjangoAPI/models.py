@@ -5,5 +5,5 @@ class ImageUpload(models.Model):
     caption = models.CharField(max_length=200)
     image = models.ImageField(upload_to='images')
 
-    def __str__(self):
-        return str.caption
+    # def __str__(self):
+    #     return
