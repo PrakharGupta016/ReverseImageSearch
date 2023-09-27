@@ -57,7 +57,7 @@ def train(filenames):
 
 def search(testFeature):
     feature_list = pickle.load(open('/home/f20200697/features.pickle', 'rb'))
-    filenames = pickle.load(open('/Reverse_Image_Search_s3.ipynbfilenames-caltech101.pickle', 'rb'))
+    filenames = pickle.load(open('./Reverse_Image_Search_s3.ipynbfilenames-caltech101.pickle', 'rb'))
     neighbors = NearestNeighbors(n_neighbors=5, algorithm='brute',metric='euclidean').fit(feature_list)
     distances, indices = neighbors.kneighbors([testFeature])
     # print(len(feature_list[0]))
