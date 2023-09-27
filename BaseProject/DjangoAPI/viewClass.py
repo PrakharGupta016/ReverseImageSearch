@@ -19,10 +19,10 @@ class ImageSearch(APIView):
 
     def post(self,request):
         file = request.data['file']
-        caption = request.data['caption']
-        uploadedImage = ImageUpload.objects.create(caption=caption, image=file)
+        # caption = request.data['caption']
+        uploadedImage = ImageUpload.objects.create(caption = "default_caption",image=file)
         image_path = uploadedImage.image.path
 
         result = search(extract_features(image_path));
         # print(result)
-        return Response({"data":"dvc"})
+        return Response(status=200,data=result)

@@ -14,7 +14,7 @@ from tensorflow.keras.applications.resnet50 import ResNet50, preprocess_input
 
 from sklearn.neighbors import NearestNeighbors
 
-model = ResNet50(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
+model = ResNet50(weights='imagenet', include_top=False, input_shape=(224, 224, 3),pooling ='avg')
 
 
 def extract_features(img_path):
@@ -56,17 +56,21 @@ def train(filenames):
 
 
 def search(testFeature):
-    filenames = pickle.load(open('/Users/prakhargupta/reverseImageSearch/Reverse_Image_Search.ipynbfilenames-caltech101.pickle', 'rb'))
-    feature_list = pickle.load(open('/Users/prakhargupta/reverseImageSearch/Reverse_Image_Search.ipynbfeatures-caltech101-resnet.pickle', 'rb'))
+    feature_list = pickle.load(open('/Users/prakhargupta/Downloads/features.pickle', 'rb'))
+    filenames = pickle.load(open('/Users/prakhargupta/reverseImageSearch/Reverse_Image_Search_s3.ipynbfilenames-caltech101.pickle', 'rb'))
     neighbors = NearestNeighbors(n_neighbors=5, algorithm='brute',metric='euclidean').fit(feature_list)
     distances, indices = neighbors.kneighbors([testFeature])
     # print(len(feature_list[0]))
     # plt.imshow(mpimg.imread(testFeature))
-    plt.imshow(mpimg.imread(filenames[indices[0][0]]))
+    # plt.imshow(mpimg.imread(filenames[indices[0][0]]))
     # return indices
-
+    responseData = []
+    for i in range( len(indices[0])):
+    #     print(i)
+        responseData.append(filenames[indices[0][i]])
+    print(indices)
     plt.show()
-    return indices
+    return responseData,distances
 
 
 # root_dir = '/Users/prakhargupta/Downloads/caltech101'
