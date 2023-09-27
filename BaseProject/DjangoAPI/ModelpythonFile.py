@@ -8,12 +8,14 @@ import os
 import time
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
+import os
+
 
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.applications.resnet50 import ResNet50, preprocess_input
 
 from sklearn.neighbors import NearestNeighbors
-
+dirname = os.path.dirname(__file__)
 model = ResNet50(weights='imagenet', include_top=False, input_shape=(224, 224, 3),pooling ='avg')
 
 
@@ -57,7 +59,7 @@ def train(filenames):
 
 def search(testFeature):
     feature_list = pickle.load(open('/home/f20200697/features.pickle', 'rb'))
-    filenames = pickle.load(open('./Reverse_Image_Search_s3.ipynbfilenames-caltech101.pickle', 'rb'))
+    filenames = pickle.load(open(os.path.join(dirname, 'Reverse_Image_Search_s3.ipynbfilenames-caltech101.pickle'), 'rb'))
     neighbors = NearestNeighbors(n_neighbors=5, algorithm='brute',metric='euclidean').fit(feature_list)
     distances, indices = neighbors.kneighbors([testFeature])
     # print(len(feature_list[0]))
