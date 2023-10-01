@@ -60,35 +60,38 @@ def train(filenames):
 
 
 def search(testFeature):
+    start = time.time()
     feature_list = pickle.load(open('/home/f20200697/features.pickle', 'rb'))
     filenames = pickle.load(open(os.path.join(dirname, 'Reverse_Image_Search_s3.ipynbfilenames-caltech101.pickle'), 'rb'))
-    # neighbors = NearestNeighbors(n_neighbors=5, algorithm='brute',metric='euclidean').fit(feature_list)
-    # distances, indices = neighbors.kneighbors([testFeature])
+    neighbors = NearestNeighbors(n_neighbors=5, algorithm='brute',metric='euclidean').fit(feature_list)
+    distances, indices = neighbors.kneighbors([testFeature])
     # print(len(feature_list[0]))
     # plt.imshow(mpimg.imread(testFeature))
     # plt.imshow(mpimg.imread(filenames[indices[0][0]]))
     # return indices
 
-    num_feature_dimensions = 100
-    pca = PCA(n_components=num_feature_dimensions)
-    pca.fit(feature_list)
-    reduced_features = pca.transform(feature_list)
-    reduced_test = pca.transform([testFeature])
-
-    annoy_index = AnnoyIndex(100)  # Length of item vector that will be
-    num_items = len(reduced_features)
-    for i in range(num_items):
-        annoy_index.add_item(i, reduced_features[i])
-    annoy_index.build(40)
-    res = annoy_index.get_nns_by_vector(reduced_test, 5, include_distances=True)
-    indices = res[0]
-    distances = res[1]
+    # num_feature_dimensions = 100
+    # pca = PCA(n_components=num_feature_dimensions)
+    # pca.fit(feature_list)
+    # reduced_features = pca.transform(feature_list)
+    # reduced_test = pca.transform([testFeature])
+    #
+    # annoy_index = AnnoyIndex(100)  # Length of item vector that will be
+    # num_items = len(reduced_features)
+    # for i in range(num_items):
+    #     annoy_index.add_item(i, reduced_features[i])
+    # annoy_index.build(40)
+    # res = annoy_index.get_nns_by_vector(reduced_test, 5, include_distances=True)
+    # indices = res[0]
+    # distances = res[1]
     responseData = []
     for i in range( len(indices)):
     #     print(i)
         responseData.append(filenames[indices[i]])
     # print(indices)
     # plt.show()
+    end = time.time()
+
     return responseData,distances
 
 
