@@ -75,7 +75,7 @@ def search(testFeature):
     reduced_features = pca.transform(feature_list)
     reduced_test = pca.transform([testFeature])
 
-    annoy_index = AnnoyIndex(2048)  # Length of item vector that will be
+    annoy_index = AnnoyIndex(100)  # Length of item vector that will be
     num_items = len(reduced_features)
     for i in range(num_items):
         annoy_index.add_item(i, reduced_features[i])
