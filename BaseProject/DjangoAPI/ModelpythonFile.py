@@ -9,6 +9,7 @@ import time
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import os
+from annoy import AnnoyIndex
 
 
 from tensorflow.keras.preprocessing import image
@@ -60,12 +61,22 @@ def train(filenames):
 def search(testFeature):
     feature_list = pickle.load(open('/home/f20200697/features.pickle', 'rb'))
     filenames = pickle.load(open(os.path.join(dirname, 'Reverse_Image_Search_s3.ipynbfilenames-caltech101.pickle'), 'rb'))
-    neighbors = NearestNeighbors(n_neighbors=5, algorithm='brute',metric='euclidean').fit(feature_list)
-    distances, indices = neighbors.kneighbors([testFeature])
+    # neighbors = NearestNeighbors(n_neighbors=5, algorithm='brute',metric='euclidean').fit(feature_list)
+    # distances, indices = neighbors.kneighbors([testFeature])
     # print(len(feature_list[0]))
     # plt.imshow(mpimg.imread(testFeature))
     # plt.imshow(mpimg.imread(filenames[indices[0][0]]))
     # return indices
+
+
+    annoy_index = AnnoyIndex(2048)  # Length of item vector that will be
+    num_items = len(feature_list)
+    for i in range(num_items):
+        annoy_index.add_item(i, feature_list[i])
+    annoy_index.build(40)
+    res = annoy_index.get_nns_by_vector(feature_list[4], 5, include_distances=True)
+    indices = res[0]
+    distances = res[1]
     responseData = []
     for i in range( len(indices[0])):
     #     print(i)
