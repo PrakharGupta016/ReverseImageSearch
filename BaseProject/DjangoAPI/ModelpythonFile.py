@@ -67,14 +67,19 @@ def search(testFeature):
     # plt.imshow(mpimg.imread(testFeature))
     # plt.imshow(mpimg.imread(filenames[indices[0][0]]))
     # return indices
-
+    from sklearn.decomposition import PCA
+    num_feature_dimensions = 100
+    pca = PCA(n_components=num_feature_dimensions)
+    pca.fit(feature_list)
+    reduced_features = pca.transform(feature_list)
+    reduced_test = pca.transform([testFeature])
 
     annoy_index = AnnoyIndex(2048)  # Length of item vector that will be
-    num_items = len(feature_list)
+    num_items = len(reduced_features)
     for i in range(num_items):
-        annoy_index.add_item(i, feature_list[i])
+        annoy_index.add_item(i, reduced_features[i])
     annoy_index.build(40)
-    res = annoy_index.get_nns_by_vector(feature_list[4], 5, include_distances=True)
+    res = annoy_index.get_nns_by_vector(reduced_test, 5, include_distances=True)
     indices = res[0]
     distances = res[1]
     responseData = []
