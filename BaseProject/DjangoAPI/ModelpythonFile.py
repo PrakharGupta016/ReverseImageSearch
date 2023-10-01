@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import os
 from annoy import AnnoyIndex
+from sklearn.decomposition import PCA
 
 
 from tensorflow.keras.preprocessing import image
@@ -67,7 +68,7 @@ def search(testFeature):
     # plt.imshow(mpimg.imread(testFeature))
     # plt.imshow(mpimg.imread(filenames[indices[0][0]]))
     # return indices
-    from sklearn.decomposition import PCA
+
     num_feature_dimensions = 100
     pca = PCA(n_components=num_feature_dimensions)
     pca.fit(feature_list)
