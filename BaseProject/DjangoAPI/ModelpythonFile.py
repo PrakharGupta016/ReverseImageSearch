@@ -81,8 +81,8 @@ def search(testFeature):
     for i in range( len(indices)):
     #     print(i)
         responseData.append(filenames[indices[i]])
-    print(indices)
-    plt.show()
+    # print(indices)
+    # plt.show()
     return responseData,distances
 
 
