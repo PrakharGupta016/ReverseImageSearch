@@ -90,9 +90,9 @@ def search(testFeature):
         responseData.append(filenames[indices[0][i]])
     # print(indices)
     # plt.show()
-    end = time.time()
-    print((end-start))
-    return responseData,distances
+    # end = time.time()
+    # print((end-start))
+    return responseData
 
 
 # root_dir = '/Users/prakhargupta/Downloads/caltech101'
